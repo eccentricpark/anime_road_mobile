@@ -4,8 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 
 /*
- * 위치 정보를 가져올 수 없다면 서울역으로 설정
- * 위치 관련 메타 데이터
+ * 위치 정보 관련 클래스
  * 위치 추적 및 좌표 갱신은 여기서 처리
  * */
 class MutableMyPosition{

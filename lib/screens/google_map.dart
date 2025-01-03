@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import '../widgets/draggable_sheet.dart';
 import '../services/index.dart';
+import '../widgets/index.dart';
 
 class GoogleMapCustom extends StatefulWidget {
   const GoogleMapCustom({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class _GoogleMapCustomState extends State<GoogleMapCustom> {
 
   late GoogleMapController mapController;
   late PositionPermissionChecker positionPermissionChecker;
-  late CustomMarkerList customMarkerList; // 성지 정보 리스트를 가져옴
+  late PilgrimageMarkerService pilgrimageMarkerService; // 성지 정보 리스트를 가져옴
   late MutableMyPosition mutableMyPosition;
 
   final Set<Marker> markers = {}; // 성지 정보를 저장
@@ -27,7 +28,7 @@ class _GoogleMapCustomState extends State<GoogleMapCustom> {
     positionPermissionChecker = PositionPermissionChecker();
     mutableMyPosition = MutableMyPosition();
     positionPermissionChecker.checkPermission();
-    customMarkerList = CustomMarkerList();
+    pilgrimageMarkerService = PilgrimageMarkerService();
 
     mutableMyPosition.trackMyLocation();
     mutableMyPosition.initializeLocation().then((_){
@@ -40,7 +41,7 @@ class _GoogleMapCustomState extends State<GoogleMapCustom> {
 
   // 성지 정보를 가져와 반영한다
   Future<void> setPilgrimageMarkers() async{
-    Set<Marker> pilgrimageList = await customMarkerList.getPilgrimage();
+    Set<Marker> pilgrimageList = await pilgrimageMarkerService.getPilgrimage();
     setState(() {
       markers.addAll(pilgrimageList);
     });
@@ -79,12 +80,12 @@ class _GoogleMapCustomState extends State<GoogleMapCustom> {
           }),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.my_location),
-        onPressed: (){
+      floatingActionButton: FloatingButtonStack(
+        onMyLocationPressed: (){
           mapController.animateCamera(CameraUpdate.newLatLngZoom(mutableMyPosition.getMyPosition(), 16));
-        }
-      ),
+        },
+        onDirectionPressed: (){},
+      )
     );
   }
 }

@@ -1,5 +1,8 @@
 import 'package:geolocator/geolocator.dart';
 
+/*
+ * 위치 정보 관련 권한 체크 
+ */
 class PositionPermissionChecker{
   PositionPermissionChecker();
 

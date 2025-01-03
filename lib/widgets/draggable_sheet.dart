@@ -7,6 +7,7 @@ class CustomDraggableSheet extends StatelessWidget {
   late List<Map<String, dynamic>> pilgrimageList;
   final void Function(LatLng position) onMarkerSelected;
   CustomDraggableSheet({Key? key, required this.markerList, required this.onMarkerSelected}) : super(key: key){
+    
     // List로 변환한다. 
     // Set은 index 접근이 불가능하여, 리스트 내 아이템 위치를 찾을 수 없다.
     this.pilgrimageList = this.markerList.map((marker){
@@ -18,7 +19,6 @@ class CustomDraggableSheet extends StatelessWidget {
       };
     }).toList();
   }
-
 
 
   @override

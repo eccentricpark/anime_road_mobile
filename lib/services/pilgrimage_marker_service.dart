@@ -1,12 +1,16 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../apis/custom_http.dart';
 
-
-class CustomMarkerList{
+/*
+ * 성지 정보를 출력하는 마커리스트
+ * HTTP 요청으로 성지 정보를 받아오고
+ * 필요한 내용을 추출하여 마커에 저장한다.
+ */
+class PilgrimageMarkerService{
 
   final CustomHTTP customHTTP = CustomHTTP();
 
-  CustomMarkerList();
+  PilgrimageMarkerService();
 
   Future<Set<Marker>> getPilgrimage() async {
     Set<Marker> markerList = {};
@@ -29,9 +33,9 @@ class CustomMarkerList{
   }
 
   // getPilgrimageDataByAnimation
-  Future<Set<Marker>> getPilgrimageDataByAnimation(String animationName) async {
+  Future<Set<Marker>> getPilgrimageDataByAnime(String animeName) async {
     Set<Marker> markerList = {};
-    final List<dynamic> pilgrimageData = await customHTTP.getPilgrimageDataByAnimation(animationName);
+    final List<dynamic> pilgrimageData = await customHTTP.getPilgrimageDataByAnime(animeName);
     for (var item in pilgrimageData){
       final double latitude = double.parse(item['latitude']);
       final double longitude = double.parse(item['longitude']);

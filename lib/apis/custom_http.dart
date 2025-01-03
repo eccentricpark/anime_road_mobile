@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import './url.dart';
 
 /*
  * HTTP 요청으로 필요한 정보를 받아옵니다.
@@ -8,7 +9,6 @@ import 'package:http/http.dart' as http;
  * */
 class CustomHTTP {
   List<dynamic> data = [];
-  final BASE_URL='http://172.30.1.38:3000';
 
   // 지역 내 모든 성지 정보를 가져 온다.
   Future<dynamic> getPilgrimageLocation() async {
@@ -26,8 +26,8 @@ class CustomHTTP {
     }
   }
 
-  Future<dynamic> getPilgrimageDataByAnimation(String animationName) async {
-    final url = Uri.parse("${BASE_URL}/kantolocation/${animationName}"); // API URL
+  Future<dynamic> getPilgrimageDataByAnime(String animeName) async {
+    final url = Uri.parse("${BASE_URL}/kantolocation/${animeName}"); // API URL
     try {
       final response = await http.get(url); // GET 요청
       if (response.statusCode == 200) {

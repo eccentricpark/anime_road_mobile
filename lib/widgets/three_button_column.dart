@@ -1,10 +1,26 @@
 import 'package:flutter/material.dart';
-import '../screens/google_map.dart';
-import '../apis/custom_http.dart';
-
 
 class ThreeButtonColumn extends StatelessWidget {
-  const ThreeButtonColumn({Key? key}) : super(key: key);
+  final VoidCallback? onFirstButtonPressed;
+  final VoidCallback? onSecondButtonPressed;
+  final VoidCallback? onThirdButtonPressed;
+
+  const ThreeButtonColumn({
+    Key? key,
+    this.onFirstButtonPressed,
+    this.onSecondButtonPressed,
+    this.onThirdButtonPressed
+  }) : super(key: key);
+
+  void _defaultFirstAction(){
+    print("Default First Action");
+  }
+  void _defaultSecondAction(){
+    print("Default Second Action");
+  }
+  void _defaultThirdAction(){
+    print("Default Third Action");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,30 +31,21 @@ class ThreeButtonColumn extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(vertical: 16.0),
           child: ElevatedButton(
-            onPressed: (){
-              print("Button");
-            },
+            onPressed: onFirstButtonPressed ?? _defaultFirstAction,
             child: const Text("성지 목록 보기", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black)),
           ),
         ),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 16.0),
           child: ElevatedButton(
-            onPressed: (){
-              print("Button");
-            },
+            onPressed: onSecondButtonPressed ?? _defaultSecondAction,
             child: const Text("나만의 성지 목록", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black)),
           ),
         ),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 16.0),
           child: ElevatedButton(
-            onPressed: (){
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => GoogleMapCustom())
-              );
-            },
+            onPressed: onThirdButtonPressed ?? _defaultThirdAction,
             child: const Text("지도 보기", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black)),
           ),
         ),
