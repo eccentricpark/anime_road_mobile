@@ -31,6 +31,7 @@ class AnimeIntroduceAPI {
       final response = await http.get(url);
       if (response.statusCode == 200) {
         final Map<String, dynamic> local = json.decode(response.body);
+        print(local['data']);
         return local['data'];
       } else {
         print("Failed to load data: ${response.statusCode}");

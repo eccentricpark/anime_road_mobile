@@ -3,12 +3,14 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import '../apis/anime_introduce.dart';
 
 class AnimeIntroduce extends StatelessWidget {
-  final data; // 타입 명시
+  final title; // 타입 명시
+  final content;
   final ScrollController controller = ScrollController();
   final AnimeIntroduceAPI animeIntroduceAPI = AnimeIntroduceAPI();
   AnimeIntroduce({
     Key? key,
-    required this.data,
+    required this.title,
+    required this.content
   }) : super(key: key);
 
 
@@ -27,7 +29,7 @@ class AnimeIntroduce extends StatelessWidget {
               child: SizedBox(
                 height: 200,
                 child: Center(
-                  child: Text("봇치 더 락"),
+                  child: Text(title),
                 ),
               ),
             ),
@@ -51,7 +53,7 @@ class AnimeIntroduce extends StatelessWidget {
               height: 400,
               child: Expanded(
                 child: Markdown(
-                  data: "크하하하",
+                  data: content,
                   selectable: true,
                 ),
               ),
