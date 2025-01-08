@@ -63,7 +63,7 @@ class _GoogleMapPilgrimageState extends State<GoogleMapPilgrimage> {
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(
               target: LatLng(35.679032, 139.769488), // 초기 위치는 서울역
-              zoom: 6.0,
+              zoom: 8.0,
             ),
             markers: markers,
             buildingsEnabled: false,
