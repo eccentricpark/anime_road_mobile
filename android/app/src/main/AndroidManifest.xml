@@ -6,7 +6,8 @@
     <application
         android:label="anime_road"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:enableOnBackInvokedCallback="true">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDz3DeoK1mxNm6xnFiSyjVrKAmos5hPgRI"/>

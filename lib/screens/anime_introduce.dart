@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import '../apis/anime_introduce.dart';
+import '../screens/google_map_pilgrimage.dart';
 
 class AnimeIntroduce extends StatelessWidget {
   final title; // 타입 명시
@@ -38,7 +39,14 @@ class AnimeIntroduce extends StatelessWidget {
               height: 50,
               child: Center(
                 child: ElevatedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(
+                        builder: (context) => GoogleMapPilgrimage(animeName: title)
+                      )
+                    );
+                  },
                   child: Text("지도 보기"),
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(200, 40)
@@ -49,15 +57,21 @@ class AnimeIntroduce extends StatelessWidget {
             ),
             SizedBox(height: 20),
             // 아래 영역에 가득 차서 스크롤 되도록
-            SizedBox(
-              height: 400,
-              child: Expanded(
+            Expanded(
                 child: Markdown(
                   data: content,
                   selectable: true,
                 ),
               ),
-            ),
+            // SizedBox(
+            //   height: 400,
+            //   child: Expanded(
+            //     child: Markdown(
+            //       data: content,
+            //       selectable: true,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

@@ -14,22 +14,28 @@ class PilgrimageMarkerService{
 
   Future<Set<Marker>> getPilgrimage() async {
     Set<Marker> markerList = {};
-    final List<dynamic> pilgrimageData = await customHTTP.getPilgrimageLocation();
-    for (var item in pilgrimageData){
-      final double latitude = double.parse(item['latitude']);
-      final double longitude = double.parse(item['longitude']);
-      Marker marker = Marker(
-        markerId: MarkerId(item['anime_scene_number']),
-        position: LatLng(latitude, longitude),
-        infoWindow: InfoWindow(
-            title: item['anime_scene_number'],
-            snippet: "f"
-        ),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-      );
-      markerList.add(marker);
+    try{
+      final List<dynamic> pilgrimageData = await customHTTP.getPilgrimageLocation();
+      for (var item in pilgrimageData){
+        final double latitude = double.parse(item['latitude']);
+        final double longitude = double.parse(item['longitude']);
+        Marker marker = Marker(
+          markerId: MarkerId(item['anime_scene_number']),
+          position: LatLng(latitude, longitude),
+          infoWindow: InfoWindow(
+              title: item['anime_scene_number'],
+              snippet: "f"
+          ),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+        );
+        markerList.add(marker);
+      }
+      return markerList;
+    } catch(e){
+      print("Error occurred: $e");
+      throw e;
     }
-    return markerList;
+    
   }
 
   // getPilgrimageDataByAnimation

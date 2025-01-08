@@ -23,10 +23,12 @@ class CustomHTTP {
       }
     } catch (e) {
       print("Error occurred: $e");
+      throw e;
     }
   }
 
   Future<dynamic> getPilgrimageDataByAnime(String animeName) async {
+    print("${BASE_URL}/kantolocation/${animeName}");
     final url = Uri.parse("${BASE_URL}/kantolocation/${animeName}"); // API URL
     try {
       final response = await http.get(url); // GET 요청
@@ -38,20 +40,7 @@ class CustomHTTP {
       }
     } catch (e) {
       print("Error occurred: $e");
-    }
-  }
-
-  Future<dynamic> testDB() async {
-    final url = Uri.parse("${BASE_URL}/kantolocation"); // API URL
-    try {
-      final response = await http.post(url, body:{}); // GET 요청
-      if (response.statusCode == 200) {
-        print(json.decode(response.body)); // JSON 파싱
-      } else {
-        print("Failed to load data: ${response.statusCode}");
-      }
-    } catch (e) {
-      print("Error occurred: $e");
+      throw e;
     }
   }
 }

@@ -4,43 +4,39 @@ import 'package:geolocator/geolocator.dart';
 import '../services/index.dart';
 import '../widgets/index.dart';
 
-class GoogleMapCustom extends StatefulWidget {
-  const GoogleMapCustom({Key? key}) : super(key: key);
+class GoogleMapPilgrimage extends StatefulWidget {
+  final String animeName;
+  const GoogleMapPilgrimage({
+    Key? key,
+    required this.animeName
+  }) : super(key: key);
 
   @override
-  _GoogleMapCustomState createState() => _GoogleMapCustomState();
+  _GoogleMapPilgrimageState createState() => _GoogleMapPilgrimageState();
 }
 
-class _GoogleMapCustomState extends State<GoogleMapCustom> {
+class _GoogleMapPilgrimageState extends State<GoogleMapPilgrimage> {
   Stream<Position>? positionStream;
-
+  late String _animeName;
   late GoogleMapController mapController;
   late PositionPermissionChecker positionPermissionChecker;
   late PilgrimageMarkerService pilgrimageMarkerService; // 성지 정보 리스트를 가져옴
-  late MutableMyPosition mutableMyPosition;
 
   final Set<Marker> markers = {}; // 성지 정보를 저장
 
   @override
   void initState() {
     super.initState();
+    _animeName = widget.animeName;
+    print(_animeName);
     positionPermissionChecker = PositionPermissionChecker();
-    mutableMyPosition = MutableMyPosition();
     positionPermissionChecker.checkPermission();
     pilgrimageMarkerService = PilgrimageMarkerService();
-
-    mutableMyPosition.trackMyLocation();
-    mutableMyPosition.initializeLocation().then((_){
-      mapController.animateCamera(
-        CameraUpdate.newLatLngZoom(mutableMyPosition.getMyPosition(), 16)
-      );
-    });
-    mutableMyPosition.updateLocation(2);
   }
 
   // 성지 정보를 가져와 반영한다
   Future<void> setPilgrimageMarkers() async{
-    Set<Marker> pilgrimageList = await pilgrimageMarkerService.getPilgrimage();
+    Set<Marker> pilgrimageList = await pilgrimageMarkerService.getPilgrimageDataByAnime(_animeName);
     setState(() {
       markers.addAll(pilgrimageList);
     });
@@ -54,7 +50,6 @@ class _GoogleMapCustomState extends State<GoogleMapCustom> {
 
   @override
   void dispose(){
-    mutableMyPosition.cancelTimer();
     mapController.dispose();
     super.dispose();
   }
@@ -67,8 +62,8 @@ class _GoogleMapCustomState extends State<GoogleMapCustom> {
           GoogleMap(
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(
-              target: LatLng(37.5548375992165, 126.971732581232), // 초기 위치는 서울역
-              zoom: 14.0,
+              target: LatLng(35.679032, 139.769488), // 초기 위치는 서울역
+              zoom: 6.0,
             ),
             markers: markers,
             buildingsEnabled: false,
@@ -79,12 +74,7 @@ class _GoogleMapCustomState extends State<GoogleMapCustom> {
           }),
         ],
       ),
-      floatingActionButton: FloatingButtonStack(
-        onMyLocationPressed: (){
-          mapController.animateCamera(CameraUpdate.newLatLngZoom(mutableMyPosition.getMyPosition(), 16));
-        },
-        onDirectionPressed: (){},
-      )
+      
     );
   }
 }

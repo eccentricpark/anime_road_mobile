@@ -11,9 +11,10 @@ class AnimeIntroduceAPI {
   AnimeIntroduceAPI();
 
   Future<dynamic> getAll() async {
+    print("${BASE_URL}/anime-introduce");
     final url = Uri.parse("${BASE_URL}/anime-introduce");
     try {
-      final response = await http.get(url).timeout(Duration(seconds: 5)); // GET 요청
+      final response = await http.get(url).timeout(Duration(seconds: 20)); // GET 요청
       if (response.statusCode == 200) {
         final Map<String, dynamic> local = json.decode(response.body);
         return local['data'];
