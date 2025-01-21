@@ -12,16 +12,7 @@ class ThreeButtonColumn extends StatelessWidget {
     this.onThirdButtonPressed
   }) : super(key: key);
 
-  void _defaultFirstAction(){
-    print("Default First Action");
-  }
-  void _defaultSecondAction(){
-    print("Default Second Action");
-  }
-  void _defaultThirdAction(){
-    print("Default Third Action");
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -53,4 +44,7 @@ class ThreeButtonColumn extends StatelessWidget {
       ],
     );
   }
+  void _defaultFirstAction(){print("Default First Action");}
+  void _defaultSecondAction(){print("Default Second Action");}
+  void _defaultThirdAction(){print("Default Third Action");}
 }

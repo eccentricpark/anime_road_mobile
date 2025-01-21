@@ -74,9 +74,9 @@ class _GoogleMapCustomState extends State<GoogleMapCustom> {
             buildingsEnabled: false,
             myLocationEnabled: true
           ),
-          CustomDraggableSheet(markerList: markers, onMarkerSelected: (LatLng position){
-            mapController.animateCamera(CameraUpdate.newLatLngZoom(position, 16));
-          }),
+          // CustomDraggableSheet(markerList: markers, onMarkerSelected: (LatLng position){
+          //   mapController.animateCamera(CameraUpdate.newLatLngZoom(position, 16));
+          // }),
         ],
       ),
       floatingActionButton: FloatingButtonStack(

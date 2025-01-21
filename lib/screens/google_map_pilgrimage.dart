@@ -1,3 +1,4 @@
+import 'package:anime_road/services/custom_marker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -20,25 +21,42 @@ class _GoogleMapPilgrimageState extends State<GoogleMapPilgrimage> {
   late String _animeName;
   late GoogleMapController mapController;
   late PositionPermissionChecker positionPermissionChecker;
-  late PilgrimageMarkerService pilgrimageMarkerService; // 성지 정보 리스트를 가져옴
+  late PilgrimageMarkerService pilgrimageMarkerService; // 성지 정보 리스dywma트를 가져옴
 
   final Set<Marker> markers = {}; // 성지 정보를 저장
+  List<CustomMarker> pilgrimageData = [];
+  final ValueNotifier<Marker?> selectedMarker = ValueNotifier<Marker?>(null); // 화면에서 클릭한 마커를 관리
+  late CustomMarker customMarker;
 
   @override
   void initState() {
     super.initState();
     _animeName = widget.animeName;
-    print(_animeName);
     positionPermissionChecker = PositionPermissionChecker();
     positionPermissionChecker.checkPermission();
     pilgrimageMarkerService = PilgrimageMarkerService();
   }
 
   // 성지 정보를 가져와 반영한다
-  Future<void> setPilgrimageMarkers() async{
-    Set<Marker> pilgrimageList = await pilgrimageMarkerService.getPilgrimageDataByAnime(_animeName);
+  Future<void> setPilgrimageMarkers() async {
+    pilgrimageData = await pilgrimageMarkerService.getPilgrimageDataByAnime(_animeName);
+    Set<Marker> pilgrimageList = {};
+    for(var item in pilgrimageData){
+      Marker marker = Marker(
+        markerId: MarkerId(item.markerId),
+        position: item.position,
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+      );
+      pilgrimageList.add(marker);
+    }
     setState(() {
-      markers.addAll(pilgrimageList);
+      markers.addAll(pilgrimageList.map((marker){
+        return marker.copyWith(
+          onTapParam: () {
+            selectedMarker.value = marker;
+          }
+        );
+      }));
     });
   }
 
@@ -63,15 +81,20 @@ class _GoogleMapPilgrimageState extends State<GoogleMapPilgrimage> {
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(
               target: LatLng(35.679032, 139.769488), // 초기 위치는 서울역
-              zoom: 8.0,
+              zoom: 6.0,
             ),
             markers: markers,
             buildingsEnabled: false,
             myLocationEnabled: true
           ),
-          CustomDraggableSheet(markerList: markers, onMarkerSelected: (LatLng position){
-            mapController.animateCamera(CameraUpdate.newLatLngZoom(position, 16));
-          }),
+          CustomDraggableSheet(
+            markerList: markers,
+            pilgrimageList: pilgrimageData,
+            selectedMarker: selectedMarker, 
+            onMarkerSelected: (LatLng position){
+              mapController.animateCamera(CameraUpdate.newLatLngZoom(position, 16));
+            }
+          ),
         ],
       ),
       
