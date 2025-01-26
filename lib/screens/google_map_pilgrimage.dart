@@ -20,7 +20,6 @@ class _GoogleMapPilgrimageState extends State<GoogleMapPilgrimage> {
   Stream<Position>? positionStream;
   late String _animeName;
   late GoogleMapController mapController;
-  late PositionPermissionChecker positionPermissionChecker;
   late PilgrimageMarkerService pilgrimageMarkerService; // 성지 정보 리스dywma트를 가져옴
 
   final Set<Marker> markers = {}; // 성지 정보를 저장
@@ -32,8 +31,6 @@ class _GoogleMapPilgrimageState extends State<GoogleMapPilgrimage> {
   void initState() {
     super.initState();
     _animeName = widget.animeName;
-    positionPermissionChecker = PositionPermissionChecker();
-    positionPermissionChecker.checkPermission();
     pilgrimageMarkerService = PilgrimageMarkerService();
   }
 

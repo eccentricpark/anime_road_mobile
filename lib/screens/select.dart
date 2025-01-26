@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       body: Center(
         child: ThreeButtonColumn(
           onFirstButtonPressed: () => _navigateAnimeList(context),
-          onThirdButtonPressed: () => _navigateGoogleMap(context))
+        )
       ),
     );
   }
