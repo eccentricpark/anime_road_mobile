@@ -34,41 +34,6 @@ class _GoogleMapPilgrimageState extends State<GoogleMapPilgrimage> {
     pilgrimageMarkerService = PilgrimageMarkerService();
   }
 
-  // 성지 정보를 가져와 반영한다
-  Future<void> setPilgrimageMarkers() async {
-    pilgrimageData = await pilgrimageMarkerService.getPilgrimageDataByAnime(_animeName);
-    Set<Marker> pilgrimageList = {};
-    for(var item in pilgrimageData){
-      Marker marker = Marker(
-        markerId: MarkerId(item.markerId),
-        position: item.position,
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-      );
-      pilgrimageList.add(marker);
-    }
-    setState(() {
-      markers.addAll(pilgrimageList.map((marker){
-        return marker.copyWith(
-          onTapParam: () {
-            selectedMarker.value = marker;
-          }
-        );
-      }));
-    });
-  }
-
-  // 초기값이므로 딱 한 번만 호출되며, 이후 호출 될 일 없다.
-  void _onMapCreated(GoogleMapController controller) {
-    setPilgrimageMarkers();
-    mapController = controller;
-  }
-
-  @override
-  void dispose(){
-    mapController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,5 +61,40 @@ class _GoogleMapPilgrimageState extends State<GoogleMapPilgrimage> {
       ),
       
     );
+  }
+
+  // 초기값이므로 딱 한 번만 호출되며, 이후 호출 될 일 없다.
+  void _onMapCreated(GoogleMapController controller) {
+    setPilgrimageMarkers();
+    mapController = controller;
+  }
+
+  // 성지 정보를 가져와 반영한다
+  Future<void> setPilgrimageMarkers() async {
+    pilgrimageData = await pilgrimageMarkerService.getPilgrimageDataByAnime(_animeName);
+    Set<Marker> pilgrimageList = {};
+    for(var item in pilgrimageData){
+      Marker marker = Marker(
+        markerId: MarkerId(item.markerId),
+        position: item.position,
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+      );
+      pilgrimageList.add(marker);
+    }
+    setState(() {
+      markers.addAll(pilgrimageList.map((marker){
+        return marker.copyWith(
+          onTapParam: () {
+            selectedMarker.value = marker;
+          }
+        );
+      }));
+    });
+  }
+
+  @override
+  void dispose(){
+    mapController.dispose();
+    super.dispose();
   }
 }
