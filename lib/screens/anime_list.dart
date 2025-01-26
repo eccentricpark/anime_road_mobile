@@ -41,11 +41,14 @@ class AnimeList extends StatelessWidget {
   }
 
   // 애니 클릭 시, 소개 화면으로 이동
-  void moveToAnimeIntroduce(BuildContext context, String title, String content) {
+  void moveToAnimeIntroduce(BuildContext context, String title, String content, String image) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AnimeIntroduce(title: title, content: content),
+        builder: (context) => AnimeIntroduce(
+          title: title,
+          image: image,
+          content: content),
       ),
     );
   }
@@ -53,7 +56,7 @@ class AnimeList extends StatelessWidget {
   // 애니 목록 표시
   Widget renderItem(BuildContext context, Map<String, dynamic> anime) {
     return GestureDetector(
-      onTap: () => moveToAnimeIntroduce(context, anime['anime_korean_name'], anime['content_korean']),
+      onTap: () => moveToAnimeIntroduce(context, anime['anime_korean_name'], anime['content_korean'], anime['anime_image']),
       child: Padding(
         padding: const EdgeInsets.all(10),
 

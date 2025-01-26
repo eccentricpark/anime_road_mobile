@@ -3,6 +3,9 @@ import './google_map.dart';
 import '../widgets/three_button_column.dart';
 import 'anime_list.dart';
 
+/// 앱 초기 화면입니다.
+/// 
+/// 알파 단계이므로, 애니 성지 목록 보기만 나옵니다.
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
