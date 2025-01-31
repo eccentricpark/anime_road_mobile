@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './screens/select.dart';
+import './screens/anime_list.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
@@ -7,7 +8,8 @@ void main() async {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyApp(),
+      // home: MyApp(),
+      home: AnimeList()
     )
   );
 }

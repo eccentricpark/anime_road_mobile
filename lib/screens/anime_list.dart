@@ -15,7 +15,10 @@ class AnimeList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("애니메이션 목록"),
+        title: Center(
+          child: const Text("애니메이션 목록"),
+        ),
+        actions: [],
       ),
       body: FutureBuilder(
         future: animeIntroduceAPI.getAll(),
